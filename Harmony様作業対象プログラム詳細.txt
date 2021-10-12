@@ -1,0 +1,162 @@
+///////////////////////////////
+// Harmony様 作業対象 (Phạm vi làm việc của Harmony)
+///////////////////////////////
+
+//==============================================================
+// 機能1：対象オブジェクトの色変更 (Chức năng 1: đổi màu object đối tượng)
+/*
+let param_example_1 = [
+	{
+		id : "100001",		// Target ID (Not DbID)
+		color : "#FF0000"
+	},
+	{
+		id : "100002",
+		color : "#FFFF00"
+	},
+	{
+		id : "100003",
+		color : "#0000FF"
+	},
+];
+*/
+function ChangeColor(target_list) {
+
+	for (var obj in target_list) {
+		// Get Target Object
+		
+		
+		// Set Color
+		
+	}
+	
+	// Refresh Viewer
+
+}
+
+//==============================================================
+// 機能2：計測情報の表示 (chức năng 2: hiển thị thông tin đo đạc)
+/*
+let param_example_2 = {
+	id : "100001",		// Target ID (Not DbID)
+	value : "2021/09/23 10:00 26℃"
+};
+*/
+
+const background_color = "#FFFFFF";	// 吹き出しの背景色 (màu nền của pop up hiển thị thông tin)
+
+function DisplayDetail(target_info) {
+	
+	// Get Target Object
+	
+	
+	// Get Coordinate
+	
+	
+	// Generate Balloon
+	
+	
+	// Add to Viewer
+
+
+}
+
+// 表示した計測情報を非表示にする (ẩn thông tin đo đạc đã hiển thị)
+function HideDetail() {
+
+
+}
+
+//==============================================================
+// 機能3：対象オブジェクトの表示切替 (chức năng 3: chuyển đổi hiển thị object đối tượng)
+/*
+let param_example_3 = [
+	{
+		id : "100001",		// Target ID (Not DbID)
+		visible : true
+	},
+	{
+		id : "100002",
+		color : false
+	},
+	{
+		id : "100003",
+		color : true
+	},
+];
+*/
+
+function ChangeVisible(target_list) {
+
+	for (var obj in target_list) {
+		// Get Target Object
+		
+		// Set Visible
+		
+	}
+	
+	// Refresh Viewer
+
+
+}
+//==============================================================
+// 機能4：球体オブジェクトの追加 (chức năng 4: thêm object hình cầu)
+/*
+let param_example_4 = {
+	lat : 135.1234,		// Latitude (Decimal)
+	lon : 35.0123,		// Longitude (Decimal)
+	alt : 25			// Altitude (Meter)
+};
+*/
+
+const sphere_radius = 2;
+const sphere_color = "#0000FF";
+
+function AddTrajectorySphere(location_info) {
+
+	// Convert coordinates (GeolocationExtension)
+	
+	
+	// Generate sphere object
+	
+	
+	// Add to Viewer
+	
+
+}
+
+//==============================================================
+// 機能5：筒状オブジェクトの追加 (chức năng 5: thêm object hình ống)
+/*
+let param_example_5 = {
+	point1 : {
+		lat : 135.1234		// Latitude (Decimal)
+		lon : 35.0123		// Longitude (Decimal)
+		alt : 30			// Altitude (Meter)
+	},
+	point2 : {
+		lat : 135.1234
+		lon : 35.01234
+		alt : 20
+	},
+	radius : 5		// Cylinder Radius (Meter)
+};
+*/
+
+const cylinder_radius = 2;
+const cylinder_color = "#0000FF";
+const cylinder_alpha = 50;			// Object Transmittance (Percentage)
+
+function AddCylinderObject(line_info) {
+
+	// Convert coordinates (GeolocationExtension)
+	
+	
+	// Generate cylinder object
+	
+	
+	// Add to Viewer
+	
+
+
+}

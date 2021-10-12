@@ -1,8 +1,1 @@
-/BE/.idea
-/BE/.mvn
-/BE/target
-/BE/BE.iml
-/BE/HELP.md
-/BE/mvnw
-/BE/mvnw.cmd
-/autodesk/node_modules
+node_modules
