@@ -1,21 +1,4 @@
-﻿/////////////////////////////////////////////////////////////////////
-// Copyright (c) Autodesk, Inc. All rights reserved
-// Written by Forge Partner Development
-//
-// Permission to use, copy, modify, and distribute this software in
-// object code form for any purpose and without fee is hereby granted,
-// provided that the above copyright notice appears in all copies and
-// that both that copyright notice and the limited warranty and
-// restricted rights notice below appear in all supporting
-// documentation.
-//
-// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
-// AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
-// DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
-// UNINTERRUPTED OR ERROR FREE.
-/////////////////////////////////////////////////////////////////////
-
+﻿
 var viewer;
 
 function launchViewer(urn) {
@@ -23,12 +6,20 @@ function launchViewer(urn) {
     env: 'AutodeskProduction',
     getAccessToken: getForgeToken
   }
+  const config = {
+    disabledExtensions: { diffTool: true },
+    extensions: ["LabelsExtension"],
+    useADP: false
+  };
+
 
   Autodesk.Viewing.Initializer(options, () => {
-    viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'))
+    viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'), config)
     viewer.start()
     var documentId = 'urn:' + urn
     Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure)
+
+
   })
 }
 
@@ -37,26 +28,48 @@ let hexToRgb = hex =>
     , (m, r, g, b) => '#' + r + r + g + g + b + b)
     .substring(1).match(/.{2}/g)
     .map(x => parseInt(x, 16))
+let circle = new THREE.SphereGeometry(0.1, 32, 16)
+let mat = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+let mesh = new THREE.Mesh(circle, mat)
+mesh.position.x = 0
+mesh.position.y = 0
+mesh.position.z = 2
+
+let mesh2 = new THREE.Mesh(circle, mat)
+mesh2.position.x = 0
+mesh2.position.y = 2
+mesh2.position.z = 1
 
 function onDocumentLoadSuccess(doc) {
+  viewer.overlays.addScene('scene')
+  viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, e => onLoadFinished());
   var viewables = doc.getRoot().getDefaultGeometry();
   viewer.loadDocumentNode(doc, viewables).then(i => {
     // documented loaded, any action?
-    $.ajax({
-      type: 'GET',
-      url: '/api/forge/oss/color',
-      success: function (data) {
+    fetch('/api/forge/oss/ball')
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        data.map(e => {
+          let mesh = new THREE.Mesh(circle, mat)
+          mesh.position.x = e.lat
+          mesh.position.y = e.lon
+          mesh.position.z = e.alt
+          viewer.overlays.addMesh(mesh, 'scene')
+        })
+        return fetch('/api/forge/oss/color')
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
         data.forEach(e => {
           let color = hexToRgb(e.color)
           let colorVector = new THREE.Vector4(color[0] / 255, color[1] / 255, color[2] / 255, 1)
           viewer.setThemingColor(e.id, colorVector)
-        });
-        console.log('aa');
-      },
-      error: function (data) {
-        alert("Server has an error")
-      }
-    })
+        })
+      })
   })
 }
 
@@ -71,3 +84,10 @@ function getForgeToken(callback) {
     })
   })
 }
+
+function onLoadFinished() {
+  const ext = viewer.getExtension("LabelsExtension");
+  // ext.initLabels(labels);
+  viewer.addEventListener(Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT, e => ext.onClickAddLabel(e));
+}
+

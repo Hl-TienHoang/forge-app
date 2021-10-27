@@ -120,6 +120,38 @@ router.get('/color', function (req, res) {
     res.json(meshList)
     // res.send(meshList)
 })
+router.get('/info/:id', function (req, res) {
+    // switch (req.params['id']) {
+    //     case value:
+
+    //         break;
+
+    //     default:
+    //         break;
+    // }
+    let info = {
+        type: 'temperature',
+        value: req.params['id'] + '℃'
+    }
+    res.json(info)
+    // res.send(meshList)
+})
+router.get('/ball', function (req, res) {
+    let data = [{
+        id: 1,
+        lat: 2,		// Latitude (Decimal) x
+        lon: 2,		// Longitude (Decimal) z
+        alt: 2             //y
+    },
+    {
+        id: 2,
+        lat: 10,		// Latitude (Decimal) x
+        lon: 20,		// Longitude (Decimal) z
+        alt: 15           //y
+    }]
+    res.json(data)
+    // res.send(meshList)
+})
 
 
 

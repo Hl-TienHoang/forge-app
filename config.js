@@ -21,7 +21,7 @@ module.exports = {
     // Set environment variables or hard-code here
     credentials: {
         client_id: "kqsRfslckkB7XPJyuVBhWBeaGXTViCCW",
-        client_secret: "K53801d12549445a",
+        client_secret: "S48d4b96a851744a",
         callback_url: process.env.FORGE_CALLBACK_URL
     },
     scopes: {
